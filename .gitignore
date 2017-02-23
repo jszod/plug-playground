@@ -1,0 +1,16 @@
+/_build
+/cover
+/deps
+erl_crash.dump
+*.ez
+.DS_STORE
+
+# Emacs Backup modes
+*~
+\#*\#
+.\#*
+
+# Wercker
+vendor/*/
+wercker
+.wercker

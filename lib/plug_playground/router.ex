@@ -4,29 +4,65 @@ defmodule PlugPlayground.Router do
   plug :match
   plug :dispatch
 
+
+  #
+  # Routes
+  #
   get "/", do: send_resp(conn, 200, "Welcome")
 
-  get "/storymap/:project_id" do
+  get "/project/:project_id" do
+    try do
+      id = String.to_integer(project_id)
+	conn
+	|> controller_get_project(id)
+	|> respond
+    rescue
+      e in ArgumentError -> send_resp(conn, 404, "Oops, project id should be an integer")
+    end
+  end
+
+
+  get "/project/:project_id/error" do
     conn
-    |> get_story_map(project_id)
+    |> controller_get_project(project_id, :return_error)
     |> respond
   end
+
   
   match _, do: send_resp(conn, 404, "Oops")
 
 
-
-  defp get_story_map(conn, project_id) do
-    Plug.Conn.assign(conn, :response, "get story map with id: #{project_id}")
+  #
+  # Controller functions
+  #
+  defp controller_get_project(conn, project_id, opts \\ [])  do
+    conn = 
+      case get_project(project_id, opts) do
+	{:ok, _} ->
+	  Plug.Conn.resp(conn, 200, "Got project with id: #{project_id}")
+	{:error, message} ->
+    	  Plug.Conn.resp(conn, 404, message)
+      end
   end
-
 
   defp respond(conn) do
-    body = conn.assigns[:response]
     conn
     |> Plug.Conn.put_resp_content_type("text/plain")
-    |> Plug.Conn.send_resp(200, body)
+    |> Plug.Conn.send_resp
+  end
+
+
+  #
+  # mock  external app/module functions
+  #
+  defp get_project(project_id, opts \\ [])
+  defp get_project(project_id, opts) when opts == :return_error do
+    {:error, "Project with id: #{project_id} not found"}
   end
   
-  
+  defp get_project(project_id, opts) do
+    {:ok, "Got project with ids: #{project_id}"}
+  end
+
+
 end
