@@ -1,10 +1,12 @@
 defmodule PlugPlayground.Router do
   use Plug.Router
+  require Logger
 
   plug :match
   plug :dispatch
 
-
+  @module __MODULE__
+  
   #
   # Routes
   #
@@ -29,7 +31,11 @@ defmodule PlugPlayground.Router do
   end
 
   
-  match _, do: send_resp(conn, 404, "Oops")
+  match _ do
+    Logger.info("#{@module}: no route for #{conn.request_path}")
+    send_resp(conn, 404, "Oops")
+  end
+  
 
 
   #
@@ -45,6 +51,7 @@ defmodule PlugPlayground.Router do
       end
   end
 
+  
   defp respond(conn) do
     conn
     |> Plug.Conn.put_resp_content_type("text/plain")
@@ -57,10 +64,12 @@ defmodule PlugPlayground.Router do
   #
   defp get_project(project_id, opts \\ [])
   defp get_project(project_id, opts) when opts == :return_error do
+    Logger.info("#{@module}: get_project: :return_error")
     {:error, "Project with id: #{project_id} not found"}
   end
   
   defp get_project(project_id, opts) do
+    Logger.info("#{@module}: get_project - project_id: #{project_id}") 
     {:ok, "Got project with ids: #{project_id}"}
   end
 

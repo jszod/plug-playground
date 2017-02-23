@@ -5,6 +5,8 @@ defmodule PlugPlayground do
 
   use Application
   require Logger
+
+  @module __MODULE__
   
   @doc """
   Hello world.
@@ -24,7 +26,7 @@ defmodule PlugPlayground do
       Plug.Adapters.Cowboy.child_spec(:http, PlugPlayground.Router, [], port: 8080)
     ]
 
-    Logger.info("Started")
+    Logger.info("#{@module}: Started")
 
     Supervisor.start_link(children, strategy: :one_for_one)
   end
