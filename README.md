@@ -1,19 +1,33 @@
 # PlugPlayground
 
-**TODO: Add description**
+A simple playground for exploring Plug/Cowboy functionality.
 
-## Installation
+The playground consists of the following simple components:  
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `plug_test` to your list of dependencies in `mix.exs`:
+  - Router - the routes
+  - ProjectController - simple controller for handling project routes
+  - Project - simple module that represents a model or external app
+
+These components are for illustrative purposes to show how Plug/Cowboy plumbing works. They return return and display simple text output.
+
+## Starting The application
 
 ```elixir
-def deps do
-  [{:plug_test, "~> 0.1.0"}]
-end
+%> mix mix run --no-halt
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/plug_test](https://hexdocs.pm/plug_test).
+Browse to
+ 
+```
+http://localhost:8080
+```
+
+Try some routes:
+
+```
+/project/123
+/project/123/error (simulate a project id not found error)
+/project/abc  (invalid project id)
+```
+
 

@@ -1,6 +1,7 @@
 defmodule PlugPlayground.Project do
   require Logger
 
+  @module __MODULE__
   
   def get_project(project_id, opts \\ [])
   def get_project(project_id, opts) when opts == :return_error do

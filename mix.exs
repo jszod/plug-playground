@@ -19,7 +19,7 @@ defmodule PlugPlayground.Mixfile do
     [
       applications: [:cowboy, :plug],
       extra_applications: [:logger],
-      mod: {PlugPlayground, []}
+      mod: {PlugPlayground, []},
     ]
   end
 

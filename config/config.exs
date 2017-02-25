@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :plug_test, key: :value
+#     config :plug_playground, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:plug_test, :key)
+#     Application.get_env(:plug_playground, :key)
 #
 # Or configure a 3rd-party app:
 #
@@ -28,3 +28,4 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+config :plug_playground, cowboy_port: 8080

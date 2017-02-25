@@ -9,24 +9,16 @@ defmodule PlugPlayground do
   @module __MODULE__
   
   @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> PlugPlayground.hello
-      :world
-
   """
-  def hello do
-    :world
-  end
 
   def start(_type, _args) do
+    port = Application.get_env(:plug_playground, :cowboy_port)
+    
     children = [
-      Plug.Adapters.Cowboy.child_spec(:http, PlugPlayground.Router, [], port: 8080)
+      Plug.Adapters.Cowboy.child_spec(:http, PlugPlayground.Router, [], port: port)
     ]
 
-    Logger.info("#{@module}: Started")
+    Logger.info("#{@module}: Started on port #{port}")
 
     Supervisor.start_link(children, strategy: :one_for_one)
   end
