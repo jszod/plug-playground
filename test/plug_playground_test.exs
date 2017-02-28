@@ -8,6 +8,7 @@ defmodule PlugPlaygroundTest do
   @opts PlugPlayground.Router.init([])
   @valid_id 123
   @invalid_id "abc"
+  @out_of_range_id 9999
 
 
   test "/ returns index" do
@@ -44,8 +45,8 @@ defmodule PlugPlaygroundTest do
   
 
   test "not found project id returns 404" do
-    id = @valid_id
-    conn = conn(:get, "project/#{id}/error")
+    id = @out_of_range_id
+    conn = conn(:get, "project/#{id}")
     conn = PlugPlayground.Router.call(conn, @opts)
 
     assert conn.state == :sent
@@ -61,7 +62,20 @@ defmodule PlugPlaygroundTest do
     assert conn.state == :sent
     assert conn.status == 404
   end
+
+
+  test "api urls return json" do
+    conn = conn(:get, "/api/v1/projects")
+    conn = PlugPlayground.Router.call(conn, @opts)
+
+    assert conn.state == :sent
+    assert conn.status == 200
+
+    {"content-type", value} = List.keyfind(conn.resp_headers, "content-type", 0)
+    assert value == "application/json; charset=utf-8"
+  end
   
+    
    
   
   

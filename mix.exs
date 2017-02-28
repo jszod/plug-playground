@@ -35,7 +35,8 @@ defmodule PlugPlayground.Mixfile do
   defp deps do
     [
      {:cowboy, "~> 1.0.0"},
-     {:plug, "~> 1.0"}
+     {:plug, "~> 1.0"},
+     {:poison, "~> 3.0"}
     ]
   end
 end

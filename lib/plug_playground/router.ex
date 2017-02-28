@@ -19,11 +19,14 @@ defmodule PlugPlayground.Router do
   #
   get "/", do: send_resp(conn, 200, "Welcome")
 
-  get "/project/:project_id", do: ProjectController.get_project(conn, project_id)
-
-  get "/project/:project_id/error" do
-    ProjectController.get_project(conn, project_id, :return_error)
+  get "/project/:project_id" do
+    conn
+    |> ProjectController.get_project(project_id)
+    |> respond
   end
+  
+
+  forward "/api/v1", to: APIRouter
   
   match _ do
     Logger.info("#{@module}: no route for #{conn.request_path}")
