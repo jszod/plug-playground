@@ -7,6 +7,7 @@ defmodule PlugPlayground.Router do
   require Logger
 
   alias PlugPlayground.ProjectController
+  alias PlugPlayground.APIRouter
 
   @module __MODULE__
   
@@ -39,5 +40,6 @@ defmodule PlugPlayground.Router do
     |> Plug.Conn.put_resp_content_type("text/plain")
     |> Plug.Conn.send_resp
   end
+
 
 end
